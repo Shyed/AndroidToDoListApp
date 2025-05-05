@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">Listmaker</string>
+    <string name="app_desc">Bienvenue chez Org Me \ n Organisez votre vie une tâche à la fois!</string>
+    <string name="action_settings">Réglages</string>
+    <string name="create_list">Créer</string>
+    <string name="name_of_list">Quel est le nom de votre liste?</string>
+    <string name="task_to_add">Quelle est la tâche que vous souhaitez ajouter?</string>
+    <string name="add_task">Ajouter</string>
+    <string name="save">Sauver</string>
+    <string name="task_due_date">Date d'échéance de la tâche</string>
+    <string name="add_task_text">Ajouter une tâche</string>
+    <string name="edit_task">Modifier la tâche</string>
+    <string name="empty_task_error">Veuillez saisir la tâche</string>
+    <string name="empty_date_error">Veuillez sélectionner la date d'échéance de la tâche</string>
+    <string name="task_added_successfully">Tâche ajoutée avec succès</string>
+    <string name="delete_list_message">Voulez-vous vraiment supprimer cette liste? \ NLes éléments de tâche de liste seront également supprimés.</string>
+    <string name="delete_list_item_message">Voulez-vous vraiment supprimer cette tâche?</string>
+    <string name="delete_list_successful_message">La liste et ses éléments de tâche ont bien été supprimés</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="edit_list_text">Modifier le nom de la liste</string>
+    <string name="list_updated_successfully">Liste mise à jour avec succès</string>
+    <string name="list_item_updated_successfully">Tâche mise à jour avec succès</string>
+    <string name="list_item_deleted_successfully">Tâche supprimée avec succès</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Listmaker">Listmaker</string>
+    <string name="author">Designed by Sheila Demonteverde</string>
+
+    <string name="delete">Supprimer</string>
+    <string name="edit">Éditer</string>
+
+    <string-array name="spinner_options">
+        <item>@string/delete</item>
+        <item>@string/edit</item>
+    </string-array>
+</resources>
