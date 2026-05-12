@@ -1,3 +1,27 @@
+/*
+=====================================================
+ PROJECT: Android To Do List App
+ FILE: ExampleInstrumentedTest.kt
+
+ DESCRIPTION:
+ This file contains instrumented tests for the
+ Android application.
+
+ Instrumented tests run on:
+ - physical Android devices
+ - Android emulators
+
+ FEATURES:
+ - Application context testing
+ - Package name verification
+ - AndroidJUnit4 test runner integration
+
+ NOTES:
+ - Used for Android testing validation
+ - Confirms application context is correct
+=====================================================
+*/
+
 package com.sheilademonteverde.orgme
 
 import androidx.test.platform.app.InstrumentationRegistry
@@ -8,17 +32,18 @@ import org.junit.runner.RunWith
 
 import org.junit.Assert.*
 
-/**
- * Instrumented test, which will execute on an Android device.
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
+/*-- ANDROID TEST RUNNER --*/
 @RunWith(AndroidJUnit4::class)
-class ExampleInstrumentedTest {
+class ExampleInstrumentedTest 
+{
+    /*-- APPLICATION CONTEXT TEST --*/
     @Test
-    fun useAppContext() {
-        // Context of the app under test.
+    fun useAppContext() 
+    {
+        // Retrieve application context
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+
+        // Verify correct package name
         assertEquals("com.sheilademonteverde.orgme", appContext.packageName)
     }
 }
