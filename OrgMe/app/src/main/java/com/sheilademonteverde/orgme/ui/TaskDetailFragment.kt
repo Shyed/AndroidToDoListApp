@@ -1,8 +1,29 @@
 /*
-Project Name: OrgMe
-Author: Sheila Demonteverde
-Module Name: TaskDetailFragment
-Date: 05/28/2020
+=====================================================
+ PROJECT: Android To Do List App (OrgMe)
+ MODULE: ui/TaskDetailFragment
+ AUTHOR: Sheila Demonteverde
+ DATE: 05/28/2020
+ Updated Dev Notes: 05/12/2026
+
+ DESCRIPTION:
+ This fragment displays all task items
+ belonging to a selected task list.
+
+ FEATURES:
+ - RecyclerView task display
+ - Add new task functionality
+ - Edit existing tasks
+ - Delete task items
+ - LiveData observation
+ - AlertDialog confirmations
+ - Toolbar title updates
+
+ NOTES:
+ - Uses MVVM architecture
+ - Uses RecyclerView with custom adapter
+ - Supports task management operations
+=====================================================
 */
 
 package com.sheilademonteverde.orgme.ui
@@ -26,90 +47,125 @@ import com.sheilademonteverde.orgme.ui.raw.TaskList
 import com.sheilademonteverde.orgme.viewModels.DetailFragmentViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
-class TaskDetailFragment : Fragment(), TaskListAdapter.TaskClickListener {
-
+/*-- TASK DETAIL FRAGMENT --*/
+class TaskDetailFragment : Fragment(), TaskListAdapter.TaskClickListener 
+{
+    /*-- RECYCLERVIEW --*/
     lateinit var taskListRecyclerView: RecyclerView
 
+    /*-- TASK LIST VARIABLES --*/
     private var listId = 0
 
-    private val viewModel: DetailFragmentViewModel by lazy {
+    /*-- VIEWMODEL INITIALIZATION --*/
+    private val viewModel: DetailFragmentViewModel by lazy 
+    {
         ViewModelProviders.of(this).get(DetailFragmentViewModel::class.java)
     }
 
+    /*-- CREATE FRAGMENT VIEW --*/
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View? 
+    {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_task_detail, container, false)
+        
+        /*-- ADD TASK BUTTON --*/
         val addTaskBtn = view.findViewById<FloatingActionButton>(R.id.addTaskBtn)
-        addTaskBtn.setOnClickListener {
+        addTaskBtn.setOnClickListener 
+        {
+             // Open AddNewTaskToList activity
             val intentToSend = Intent(activity, AddNewTaskToList::class.java)
-            intentToSend.putExtra("itemListId", listId)
+            intentToSend.putExtra("itemListId", listId) // Pass selected list ID
             startActivity(intentToSend)
         }
         return view
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    /*-- VIEW CREATED EVENT --*/
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) 
+    {
         super.onViewCreated(view, savedInstanceState)
 
-        arguments?.let {
+        /*-- RETRIEVE FRAGMENT ARGUMENTS --*/
+        arguments?.let 
+        {
             val args = TaskDetailFragmentArgs.fromBundle(it)
             listId = args.listId
         }
 
+        /*-- RECYCLERVIEW SETUP --*/
         taskListRecyclerView = view.findViewById(R.id.task_list_recyclerview)
         taskListRecyclerView.layoutManager = LinearLayoutManager(activity)
 
-        viewModel.getListById(listId).observe(viewLifecycleOwner, Observer {
+        /*-- OBSERVE TASK LIST TITLE --*/
+        viewModel.getListById(listId).observe(viewLifecycleOwner, Observer 
+                                              {
             if (it != null) {
-                activity?.toolbar?.title = it.name
+                activity?.toolbar?.title = it.name // Update toolbar title
             }
         })
 
-        viewModel.getAllItemsOfList(listId).observe(viewLifecycleOwner, Observer {
-            it?.let {
-                taskListRecyclerView.adapter = TaskListAdapter(it, this)
+        /*-- OBSERVE TASK ITEMS --*/
+        viewModel.getAllItemsOfList(listId).observe(viewLifecycleOwner, Observer 
+         {
+            it?.let 
+            {
+                taskListRecyclerView.adapter = TaskListAdapter(it, this) // Attach adapter to RecyclerView
             }
         })
 
     }
 
-    companion object {
+    /*-- FRAGMENT FACTORY METHOD --*/
+    companion object 
+    {
         private val ARG_LIST = "list"
         fun newInstance(list: TaskList): TaskDetailFragment {
-            val bundle = Bundle()
+            val bundle = Bundle()  // Create bundle for fragment arguments
             bundle.putParcelable(ARG_LIST, list)
-            val fragment = TaskDetailFragment()
+            val fragment = TaskDetailFragment() // Create fragment instance
             fragment.arguments = bundle
             return fragment
         }
     }
 
-    override fun editClicked(listItem: ListItemModel) {
+    /*-- EDIT TASK ACTION --*/
+    override fun editClicked(listItem: ListItemModel) 
+    {
         val intentToSend = Intent(activity, EditTaskActivity::class.java)
-        intentToSend.putExtra("listItemId", listItem.id)
+        intentToSend.putExtra("listItemId", listItem.id) // Pass selected task item ID
         startActivity(intentToSend)
     }
 
-    override fun deleteClicked(listItem: ListItemModel) {
-        val builder = AlertDialog.Builder(requireActivity())
+    /*-- DELETE TASK ACTION --*/
+    override fun deleteClicked(listItem: ListItemModel) 
+    {
+        val builder = AlertDialog.Builder(requireActivity()) // Create confirmation dialog
         builder.setMessage(getString(R.string.delete_list_item_message))
-        builder.setPositiveButton(getString(R.string.yes)) { dialogInterface, i ->
+
+        /*-- CONFIRM DELETE --*/
+        builder.setPositiveButton(getString(R.string.yes)) 
+        { dialogInterface, i ->
             dialogInterface.dismiss()
-            viewModel.deleteListItem(listItem.id)
+            viewModel.deleteListItem(listItem.id) // Delete task item
+
+            // Display success message
             Toast.makeText(
                 requireActivity(),
                 getString(R.string.list_item_deleted_successfully),
                 Toast.LENGTH_SHORT
             ).show()
         }
-        builder.setNegativeButton(getString(R.string.no)) { dialogInterface, i ->
+
+        /*-- CANCEL DELETE --*/
+        builder.setNegativeButton(getString(R.string.no)) 
+        { dialogInterface, i ->
             dialogInterface.dismiss()
         }
 
-        val alert = builder.create()
+        val alert = builder.create() // Display dialog
         alert.show()
     }
 
